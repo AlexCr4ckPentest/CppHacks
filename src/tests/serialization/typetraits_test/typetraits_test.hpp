@@ -1,5 +1,5 @@
-#ifndef SERIALIZATION_TYPETRAITS_TEST
-#define SERIALIZATION_TYPETRAITS_TEST
+#ifndef SERIALIZATION_TYPETRAITS_TEST_HPP
+#define SERIALIZATION_TYPETRAITS_TEST_HPP
 
 #include "impl/MainObject_typetraits_test.hpp"
 #include "impl/Serializable_typetraits_test.hpp"
@@ -24,4 +24,4 @@ constexpr bool run_typetraits_test() noexcept
 }
 } // namespace tests::serialization
 
-#endif // SERIALIZATION_TYPETRAITS_TEST
+#endif // SERIALIZATION_TYPETRAITS_TEST_HPP
