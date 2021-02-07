@@ -25,12 +25,12 @@
 
 namespace alex {
 
-template<typename... Callable>
-struct overload : Callable...   // Because lambda is the struct with overloaded operator()
-{ using Callable::operator()...; }; // Science C++17, it's very cool!! Just one line of code ))
+template<typename... CallableObject>
+struct overload : CallableObject...   // Because lambda is the struct with overloaded operator()
+{ using CallableObject::operator()...; }; // Science C++17, it's very cool!! Just one line of code ))
 
 // CTAD
-template<typename... Callable> overload(Callable...) -> overload<Callable...>;
+template<typename... CallableObject> overload(CallableObject...) -> overload<CallableObject...>;
 
 } // namespace alex
 
