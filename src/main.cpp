@@ -5,8 +5,6 @@
 #include "serialization/serialization.hpp"
 #include "transparent_invoke.hpp"
 
-
-
 #include "tests/serialization/typetraits_test/typetraits_test.hpp"
 
 
