@@ -1,10 +1,9 @@
 #include <type_traits>
-#include <typeinfo>
 
 #include "lib/nlohmann/json.hpp"
 
-#ifndef SERIALIZABLE_DESERIALIZABLE_HPP
-#define SERIALIZABLE_DESERIALIZABLE_HPP
+#ifndef SERIALIZATION_HPP
+#define SERIALIZATION_HPP
 
 namespace alex { namespace serialization {
 
@@ -61,7 +60,7 @@ using method_setObjectName_is_valid = std::is_same<decltype(&T::setObjectName), 
 template<typename T>
 struct has_valid_getObjectName_method
 {
-    template<typename U, typename = std::enable_if_t<method_getObjectName_is_valid<U>::value, U>>
+    template<typename U, typename = std::enable_if_t<method_getObjectName_is_valid<U>::value>>
     static char check(decltype(&U::getObjectName));
 
     template<typename...> static int check(...);
@@ -72,7 +71,7 @@ struct has_valid_getObjectName_method
 template<typename T>
 struct has_valid_setObjectName_method
 {
-    template<typename U, typename = std::enable_if_t<method_setObjectName_is_valid<U>::value, U>>
+    template<typename U, typename = std::enable_if_t<method_setObjectName_is_valid<U>::value>>
     static char check(decltype(&U::setObjectName));
 
     template<typename...> static int check(...);
@@ -85,8 +84,7 @@ struct has_valid_getObjectName_setObjectName_methods
 { static constexpr bool value{has_valid_getObjectName_method<T>::value && has_valid_setObjectName_method<T>::value}; };
 
 template<typename T>
-struct is_valid_object
-{ static constexpr bool value{is_derived_from_MainObject<T>::value && has_valid_getObjectName_setObjectName_methods<T>::value}; };
+using is_valid_object = has_valid_getObjectName_setObjectName_methods<T>;
 
 } // namespace detail
 
@@ -133,4 +131,4 @@ struct is_serializable_deserializable_object
 #define CREATE_OBJECT(class_name, object_name, ...) \
     class_name object_name{__VA_ARGS__}; object_name.setObjectName(#object_name)
 
-#endif // SERIALIZABLE_DESERIALIZABLE_HPP
+#endif // SERIALIZATION_HPP
