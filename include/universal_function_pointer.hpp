@@ -15,8 +15,6 @@
  *  void(*pure_p_foo)() = p_foo; // universal_function_pointer class can be converted to a pure function pointer
 */
 
-
-
 #include <bits/move.h> // std::forward
 
 
