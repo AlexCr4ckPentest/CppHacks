@@ -17,10 +17,12 @@ public:
     nlohmann::json toJson() const override { return {}; }
 };
 
-class class_D : public SerializableObject {};
+class class_D : public SerializableObject<class_D>
+{ MAIN_OBJECT_INIT(class_D)
+};
 
-class class_E : public SerializableObject
-{
+class class_E : public SerializableObject<class_E>
+{ MAIN_OBJECT_INIT(class_E)
 public:
     nlohmann::json toJson() const override { return {}; }
 };

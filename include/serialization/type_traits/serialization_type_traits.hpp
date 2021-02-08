@@ -9,7 +9,7 @@ namespace alex::serialization::type_traits {
 namespace detail {
 
 template<typename T>
-using is_derived_from_MainObject = std::is_base_of<MainObject, T>;
+using is_derived_from_MainObject = std::is_base_of<MainObject<T>, T>;
 
 template<typename T>
 struct has_getObjectName_method
@@ -45,7 +45,7 @@ struct has_valid_getObjectName_method
 
     template<typename...> static constexpr int check(...);
 
-    static constexpr bool value{sizeof(check<T, MainObject>(nullptr)) == sizeof(char)};
+    static constexpr bool value{sizeof(check<T, MainObject<T>>(nullptr)) == sizeof(char)};
 };
 
 template<typename T>
@@ -60,7 +60,7 @@ struct has_valid_setObjectName_method
 
     template<typename...> static constexpr int check(...);
 
-    static constexpr bool value{sizeof(check<T, MainObject>(nullptr)) == sizeof(char)};
+    static constexpr bool value{sizeof(check<T, MainObject<T>>(nullptr)) == sizeof(char)};
 };
 
 template<typename T>

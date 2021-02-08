@@ -18,10 +18,12 @@ public:
     void fromJson(const nlohmann::json&) override {}
 };
 
-class class_D : public SerializableDeserializableObject {};
+class class_D : public SerializableDeserializableObject<class_D>
+{ MAIN_OBJECT_INIT(class_D)
+};
 
-class class_E : public SerializableDeserializableObject
-{
+class class_E : public SerializableDeserializableObject<class_E>
+{ MAIN_OBJECT_INIT(class_E)
 public:
     nlohmann::json toJson() const override { return {}; }
     void fromJson(const nlohmann::json&) override {}

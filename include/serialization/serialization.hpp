@@ -1,4 +1,5 @@
 #include <type_traits>
+#include <typeinfo>
 
 #include "lib/nlohmann/json.hpp"
 
@@ -15,33 +16,39 @@ struct Deserializable
 
 struct SerializableDeserializable : public Serializable, public Deserializable {};
 
-struct MainObject
+template<typename Derived>
+class MainObject
 {
+public:
     constexpr MainObject() noexcept
-        : name_{nullptr}
-    {}
+    { Derived::__init__(); }
 
     constexpr MainObject(const MainObject& other) noexcept
-        : name_{other.name_}
-    {}
+    { name_ = other.name_; }
 
     constexpr MainObject(MainObject&&) = default;
 
     MainObject& operator=(const MainObject&) = delete;
     MainObject& operator=(const MainObject&&) = delete;
 
-    constexpr const char* getObjectName() const noexcept { return name_; }
-    constexpr void setObjectName(const char* name) noexcept { name_ = name; }
+    constexpr static const char* getObjectName() noexcept { return name_; }
+    constexpr static void setObjectName(const char* name) noexcept { name_ = name; }
 
-private:
-    const char* name_;
+protected:
+    static const char* name_;
 };
 
-struct SerializableObject : public Serializable, public MainObject {};
+template<typename Derived>
+const char* MainObject<Derived>::name_{};
 
-struct DeserializableObject : public Deserializable, public MainObject {};
+template<typename Derived>
+struct SerializableObject : public Serializable, public MainObject<Derived> {};
 
-struct SerializableDeserializableObject : public SerializableDeserializable, public MainObject {};
+template<typename Derived>
+struct DeserializableObject : public Deserializable, public MainObject<Derived> {};
+
+template<typename Derived>
+struct SerializableDeserializableObject : public SerializableDeserializable, public MainObject<Derived> {};
 
 } // namespace alex::serialization
 
@@ -51,7 +58,14 @@ struct SerializableDeserializableObject : public SerializableDeserializable, pub
 
 
 
-#define CREATE_OBJECT(class_name, object_name, ...) \
-    class_name object_name{__VA_ARGS__}; object_name.setObjectName(#object_name)
+#define MAIN_OBJECT_INIT(class_name)    \
+private:    \
+    static void __init__() noexcept \
+    {   \
+        name_ = typeid(class_name).name();  \
+    }   \
+    friend class MainObject<class_name>;
+
+
 
 #endif // SERIALIZATION_HPP

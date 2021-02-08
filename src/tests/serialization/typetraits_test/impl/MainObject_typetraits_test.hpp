@@ -14,21 +14,23 @@ public:
     constexpr void setObjectName() noexcept {}
 };
 
-class class_C : public alex::serialization::MainObject
-{
+class class_C : public alex::serialization::MainObject<class_C>
+{ MAIN_OBJECT_INIT(class_C)
 private:
-    using alex::serialization::MainObject::getObjectName;
-    using alex::serialization::MainObject::setObjectName;
+    using alex::serialization::MainObject<class_C>::getObjectName;
+    using alex::serialization::MainObject<class_C>::setObjectName;
 };
 
-class class_D : public alex::serialization::MainObject
-{
+class class_D : public alex::serialization::MainObject<class_D>
+{ MAIN_OBJECT_INIT(class_D)
 public:
     constexpr const char* getObjectName() const noexcept { return nullptr; }
     constexpr void setObjectName(const char*) noexcept {}
 };
 
-class class_E : public alex::serialization::MainObject {};
+class class_E : public alex::serialization::MainObject<class_E>
+{ MAIN_OBJECT_INIT(class_E)
+};
 
 
 
