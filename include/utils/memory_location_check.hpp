@@ -2,34 +2,43 @@
 #define MEMORY_LOCATION_CHECK_HPP
 
 namespace alex::utils::memory_location {
+namespace impl {
 
-enum class memory_location_type : short
+enum class location_type : short
 { stack, heap, null_ptr };
 
-class checker
+class location_cheker
 {
 public:
-    checker(const checker&) = delete;
-    checker(checker&&) = delete;
-    checker& operator=(const checker&) = delete;
-    checker& operator=(checker&&) = delete;
+    location_cheker() = default;
+    location_cheker(const location_cheker&) = delete;
+    location_cheker(location_cheker&&) = delete;
+    location_cheker& operator=(const location_cheker&) = delete;
+    location_cheker& operator=(location_cheker&&) = delete;
 
     template<typename T>
-    memory_location_type get_location_type(T* ptr) noexcept
+    location_type get_location_type(T* ptr) noexcept
     {
         if (ptr == nullptr) {
-            return memory_location_type::null_ptr;
+            return location_type::null_ptr;
         }
 
         char local;
 
         if ((reinterpret_cast<void*>(ptr) < reinterpret_cast<void*>(&local)) == (reinterpret_cast<void*>(this) < reinterpret_cast<void*>(&local))) {
-            return memory_location_type::stack;
+            return location_type::stack;
         }
 
-        return memory_location_type::heap;
+        return location_type::heap;
     }
 };
+
+} // namespace alex::utils::memory_location::impl
+
+
+
+using impl::location_type;
+inline impl::location_cheker memory_location_cheker{};
 
 } // namespace alex::utils::memory_location
 
