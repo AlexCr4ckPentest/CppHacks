@@ -14,8 +14,17 @@
 #define ARRAY_HPP
 
 namespace alex::data_structutes {
+namespace detail {
 
-template<typename T, std::size_t N>
+template<std::size_t val, std::size_t compare>
+struct is_greater_than
+{ constexpr static bool value{val > compare}; };
+
+} // namespace alex::data_structutes::detail
+
+
+
+template<typename T, std::size_t N, typename = std::enable_if_t<detail::is_greater_than<N, 0>::value>>
 struct array
 {
     using value_type                = T;
@@ -30,11 +39,10 @@ struct array
     using reverse_iterator          = std::reverse_iterator<iterator>;
     using const_reverse_iterator    = std::reverse_iterator<const_iterator>;
 
-    constexpr array() noexcept : arr_{}
-    {}
+    constexpr array() noexcept : arr_{} {}
 
-    constexpr array(std::initializer_list<T> init_list) noexcept : arr_{init_list}
-    {}
+    constexpr array(std::initializer_list<T> init_list) noexcept
+    { std::move(init_list.begin(), init_list.end(), begin()); }
 
     constexpr size_type size() const noexcept   { return N; }
     constexpr bool is_empty() const noexcept    { return N == 0; }
@@ -49,16 +57,23 @@ struct array
     }
 
     constexpr const_reference at(size_type index) const
-    { return static_cast<const_reference>(at(index)); }
+    {
+        if (index >= N) { throw std::out_of_range("array::at(): index out of range!"); }
+        return arr_[index];
+    }
 
-    void fill(const_reference value) { std::fill_n(begin(), N, value); }
+    constexpr void fill(const_reference value)  { std::fill_n(begin(), N, value); }
+
+    template<typename U, typename = std::enable_if_t<std::is_nothrow_swappable_v<U>>>
+    constexpr void swap(U& other) noexcept              { std::swap_ranges(begin(), end(), other.begin()); }
+    constexpr void swap(array& other_array) noexcept    { std::swap_ranges(begin(), end(), other_array.begin()); }
 
     constexpr iterator begin() noexcept                         { return iterator{arr_}; }
-    constexpr iterator end() noexcept                           { return iterator{arr_ + (N - 1)}; }
+    constexpr iterator end() noexcept                           { return iterator{arr_ + N}; }
     constexpr reverse_iterator rbegin() noexcept                { return reverse_iterator{end()}; }
     constexpr reverse_iterator rend() noexcept                  { return reverse_iterator{begin()}; }
     constexpr const_iterator cbegin() const noexcept            { return const_iterator{arr_}; }
-    constexpr const_iterator cend() const noexcept              { return const_iterator{arr_ + (N - 1)}; }
+    constexpr const_iterator cend() const noexcept              { return const_iterator{arr_ + N}; }
     constexpr const_reverse_iterator crbegin() const noexcept   { return const_reverse_iterator{cend()}; }
     constexpr const_reverse_iterator crend() const noexcept     { return const_reverse_iterator{cbegin()}; }
 
@@ -70,6 +85,9 @@ struct array
 private:
     T arr_[N];
 };
+
+template<typename T, typename... U>
+array(T, U...) -> array<std::enable_if_t<(std::is_same_v<T, U> && ...), T>, (sizeof...(U)) + 1>;
 
 } // namespace alex::data_structutes
 
