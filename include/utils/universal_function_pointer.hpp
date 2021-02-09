@@ -22,7 +22,7 @@
 #ifndef UNIVERSAL_FUNCTION_POINTER_HPP
 #define UNIVERSAL_FUNCTION_POINTER_HPP
 
-namespace alex {
+namespace alex::utils {
 
 template<typename FuncSignature>
 class universal_function_pointer
@@ -61,6 +61,6 @@ private:
     function_pointer callable_;
 };
 
-} // namespace alex
+} // namespace alex::utils
 
 #endif // UNIVERSAL_FUNCTION_POINTER_HPP
