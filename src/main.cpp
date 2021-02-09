@@ -1,13 +1,12 @@
 #include <iostream>
 
-#include "utils/overload.hpp"
-#include "utils/universal_function_pointer.hpp"
-#include "utils/transparent_invoke.hpp"
-#include "utils/memory_location_check.hpp"
-#include "utils/smart_pointers/scoped_ptr.hpp"
+#include "utils/utils.hpp"
+#include "data_structures/data_structures.hpp"
 #include "serialization/serialization.hpp"
 
 #include "tests/serialization/typetraits_test/typetraits_test.hpp"
+
+
 
 int main()
 {    
