@@ -35,11 +35,8 @@ public:
 
 } // namespace alex::utils::memory_location::impl
 
-
-
 using impl::location_type;
-inline impl::location_cheker memory_location_cheker{};
-
+using memory_location_checker = impl::location_cheker;
 } // namespace alex::utils::memory_location
 
 #endif // MEMORY_LOCATION_CHECK_HPP
