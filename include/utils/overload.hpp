@@ -27,7 +27,7 @@ namespace alex::utils {
 
 template<typename... CallableObject>
 struct overload : CallableObject...   // Because lambda is the struct with overloaded operator()
-{ using CallableObject::operator()...; }; // Science C++17, it's very cool!! Just one line of code ))
+{ using CallableObject::operator()...; }; // Since C++17, it's very cool!! Just one line of code ))
 
 // CTAD
 template<typename... CallableObject> overload(CallableObject...) -> overload<CallableObject...>;
