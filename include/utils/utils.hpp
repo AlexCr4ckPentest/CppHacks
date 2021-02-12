@@ -6,6 +6,7 @@
 #include "transparent_invoke.hpp"
 #include "memory_location_check.hpp"
 #include "concepts.hpp"
+#include "cpp_assert.hpp"
 
 #include "math/math.hpp" // math module
 
