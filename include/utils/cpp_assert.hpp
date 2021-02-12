@@ -41,11 +41,11 @@ using Handler = void(*)(const char*, int, const char*, const char*, std::ostream
 
 
 
-#define ASSERT_DEFAULT(expression)  \
+#define UTILS_CPPASSERT_DEFAULT(expression)  \
     alex::utils::assert::impl::__assert_base(expression, __FILE__, __LINE__,    \
                                 std::bind(alex::utils::assert::impl::__default_assertion_handler, std::placeholders::_1, std::placeholders::_2, __PRETTY_FUNCTION__, #expression, std::ref(std::cerr)))
 
-#define ASSERT_CUSTOM(expression, handler, stream)  \
+#define UTILS_CPPASSERT_CUSTOM(expression, handler, stream)  \
     alex::utils::assert::impl::__assert_base(expression, __FILE__, __LINE__,    \
                                 std::bind(handler, std::placeholders::_1, std::placeholders::_2, __PRETTY_FUNCTION__, #expression, std::ref(stream)))
 
