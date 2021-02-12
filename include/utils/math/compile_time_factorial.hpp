@@ -25,12 +25,21 @@ namespace concepts {
 
 template<typename T>
 concept IntegerType = requires
-{ requires std::is_integral_v<T> || boost::multiprecision::is_number<T>::value; };
+{
+#if defined(__RECURSIVE_TEMPLATE_INSTANTIATION_FACTORIAL_COMPUTING) || defined(__RECURSIVE_CONSTEXPR_FUNCTION_FACTORIAL_COMPUTING) ||   \
+    defined(__CONSTEXPR_FUNCTION_FOR_LOOP_FACTORIAL_COMPUTING)
+    requires std::is_integral_v<T> || boost::multiprecision::is_number<T>::value;
+#else
+    requires std::is_integral_v<T>;
+#endif
+};
 
 } // namespace alex::utils::math::ct_factorial::concepts
 
-namespace detail {
 
+
+#if defined(__RECURSIVE_CONSTEXPR_FUNCTION_FACTORIAL_COMPUTING) || defined(__CONSTEXPR_FUNCTION_FOR_LOOP_FACTORIAL_COMPUTING)
+namespace detail {
 template<size_t N>
 constexpr size_t cached_factorial_value {
     [] {
@@ -41,8 +50,8 @@ constexpr size_t cached_factorial_value {
         else if constexpr (N == 5)  return 125;
     }()
 };
-
-} // namespace detail
+} // namespace alex::utils::math::ct_factorial::detail
+#endif
 
 
 
@@ -72,6 +81,12 @@ constexpr auto ct_factorial()
         return result;
     }
 }
+#elif defined(__SFINAE_TEMLATE_INSTANTIATION_FACTORIAL_COMPUTING)
+template<concepts::IntegerType integer_type, size_t N>
+struct ct_factorial : std::integral_constant<integer_type, N * ct_factorial<integer_type, N - 1>{}> {};
+
+template<concepts::IntegerType integer_type>
+struct ct_factorial<integer_type, 0> : std::integral_constant<integer_type, 1> {};
 #endif
 
 } // namespace alex::utils::math::ct_factorial
