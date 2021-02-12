@@ -63,14 +63,14 @@ template<concepts::IntegerType integer_type>
 struct ct_factorial<integer_type, 0> { static constexpr integer_type value{1}; };
 #elif defined(__RECURSIVE_CONSTEXPR_FUNCTION_FACTORIAL_COMPUTING)
 template<concepts::IntegerType integer_type, size_t N>
-constexpr auto ct_factorial()
+constexpr integer_type ct_factorial()
 {
     if constexpr (N <= 5) return detail::cached_factorial_value<N>;
-    else return N * ct_factorial<N - 1>();
+    else return N * ct_factorial<integer_type, N - 1>();
 }
 #elif defined(__CONSTEXPR_FUNCTION_FOR_LOOP_FACTORIAL_COMPUTING)
 template<concepts::IntegerType integer_type, size_t N>
-constexpr auto ct_factorial()
+constexpr integer_type ct_factorial()
 {
     if constexpr (N <= 5) return detail::cached_factorial_value<N>;
     else {
