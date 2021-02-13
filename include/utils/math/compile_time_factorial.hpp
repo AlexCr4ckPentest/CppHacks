@@ -5,6 +5,7 @@
 */
 
 
+#include <type_traits>
 
 #include <boost/multiprecision/cpp_int.hpp>
 
