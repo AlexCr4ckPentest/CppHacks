@@ -12,4 +12,6 @@
 #include "compile_time_factorial.hpp"
 #undef __RECURSIVE_CONSTEXPR_FUNCTION_FACTORIAL_COMPUTING
 
+#include "compile_time_power.hpp"
+
 #endif // MATH_HPP
