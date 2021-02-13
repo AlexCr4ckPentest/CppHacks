@@ -13,8 +13,10 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
-namespace alex::data_structutes {
-namespace detail {
+namespace alex::data_structutes
+{
+namespace detail
+{
 
 template<std::size_t val, std::size_t compare>
 struct is_greater_than

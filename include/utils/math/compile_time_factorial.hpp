@@ -21,8 +21,10 @@
 
 
 
-namespace alex::utils::math::ct_factorial {
-namespace concepts {
+namespace alex::utils::math::ct_factorial
+{
+namespace concepts
+{
 
 template<typename T>
 concept IntegerType = requires
