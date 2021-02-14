@@ -22,6 +22,7 @@ concept NumberType = std::is_integral_v<T> ||
                     std::is_floating_point_v<T> ||
                     boost::multiprecision::is_number<T>::value;
 #else
+// Legacy SFINAE
 template<typename T> struct IsNumberType
 { static constexpr bool value{std::is_integral<T>::value || std::is_floating_point<T>::value}; };
 #endif
@@ -30,14 +31,13 @@ template<typename T> struct IsNumberType
 
 
 // Recursive template instantiation
-#if 1
+#if 0
 template<
 #if __cplusplus > 201703L && __cpp_concepts >= 201907L
     concepts::NumberType number_type,
     number_type number,
     size_t pow
 #else
-    // Legacy SFINAE
     typename number_type,
     number_type number,
     size_t pow,
@@ -52,7 +52,6 @@ template<
     concepts::NumberType number_type,
     number_type number
 #else
-    // Legacy SFINAE
     typename number_type,
     number_type number
 #endif
@@ -63,7 +62,6 @@ template<
     concepts::NumberType number_type,
     number_type number
 #else
-    // Legacy SFINAE
     typename number_type,
     number_type number
 #endif
@@ -73,7 +71,6 @@ template<
 #if __cplusplus > 201703L && __cpp_concepts >= 201907L
     concepts::NumberType number_type
 #else
-    // Legacy SFINAE
     typename number_type, typename = std::enable_if_t<concepts::IsNumberType<number_type>::value>
 #endif
 >
