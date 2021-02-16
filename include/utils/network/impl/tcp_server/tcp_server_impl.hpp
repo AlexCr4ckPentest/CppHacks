@@ -3,6 +3,9 @@
  * BECAUSE IT LEADS TO COMPILATION ERRORS
 */
 
+#ifndef TCP_SERVER_IMPL_HPP
+#define TCP_SERVER_IMPL_HPP
+
 
 
 #include <cstring>
@@ -127,3 +130,5 @@ ssize_t TcpServer::receive() const noexcept
 { return ::recv(client_socket_fd_, buffer_.data(), buffer_.size(), 0); }
 
 } // namespace alex::utils::network
+
+#endif // TCP_SERVER_IMPL_HPP
