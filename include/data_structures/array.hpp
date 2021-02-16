@@ -17,16 +17,29 @@ namespace alex::data_structutes
 {
 namespace detail
 {
+#if __cplusplus > 201703L && __cpp_concepts >= 201907L
+template<size_t val, size_t cmp>
+concept is_greater_than = requires { val > cmp; };
 
+template<typename T>
+concept nothrow_swappable = std::is_nothrow_swappable_v<T>;
+#else
 template<std::size_t val, std::size_t compare>
 struct is_greater_than
 { constexpr static bool value{val > compare}; };
-
+#endif
 } // namespace alex::data_structutes::detail
 
 
 
-template<typename T, std::size_t N, typename = std::enable_if_t<detail::is_greater_than<N, 0>::value>>
+template<typename T, std::size_t N
+#if __cplusplus > 201703L && __cpp_concepts >= 201907L
+>
+requires detail::is_greater_than<N, 0>
+#else
+    , typename = std::enable_if_t<detail::is_greater_than<N, 0>::value>
+>
+#endif
 struct array
 {
     using value_type                = T;
@@ -66,8 +79,14 @@ struct array
 
     constexpr void fill(const_reference value)  { std::fill_n(begin(), N, value); }
 
-    template<typename U, typename = std::enable_if_t<std::is_nothrow_swappable_v<U>>>
+    template<
+#if __cplusplus > 201703L && __cpp_concepts >= 201907L
+        detail::nothrow_swappable U>
+#else
+        typename U, typename = std::enable_if_t<std::is_nothrow_swappable_v<U>>>
+#endif
     constexpr void swap(U& other) noexcept              { std::swap_ranges(begin(), end(), other.begin()); }
+
     constexpr void swap(array& other_array) noexcept    { std::swap_ranges(begin(), end(), other_array.begin()); }
 
     constexpr iterator begin() noexcept                         { return iterator{arr_}; }
