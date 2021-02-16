@@ -65,6 +65,7 @@ public:
     TcpServer& operator=(const TcpServer& other)    = delete;
 
     void start(uint16_t max_clients = SOMAXCONN);
+    void stop();
 
     inline uint16_t get_port() const noexcept
     { return port_; }
@@ -95,8 +96,6 @@ protected:
     int client_socket_fd_;
     sockaddr_in server_addr_info_;
     sockaddr_in client_addr_info_;
-
-    void stop();
 
     virtual void listen(uint16_t max_clients);
     virtual ssize_t receive() const noexcept;
