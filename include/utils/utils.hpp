@@ -8,8 +8,13 @@
 #include "concepts.hpp"
 #include "cpp_assert.hpp"
 
-#include "math/math.hpp" // math module
+// smart pointers module
+#include "smart_pointers/smart_pointers.hpp"
 
-#include "smart_pointers/smart_pointers.hpp" // smart pointers module
+// math module
+#include "math/math.hpp"
+
+// network module
+#include "network/network.hpp"
 
 #endif // UTILS_HPP
