@@ -19,10 +19,8 @@
 
 namespace alex::utils::network
 {
-constexpr static inline int INVALID_SOCKET_FD {-1};
-
 std::function<void(std::string_view)> TcpServer::message_handler_ {};
-std::array<char, detail::BUFFER_SIZE> TcpServer::buffer_   {};
+std::array<char, defines::BUFFER_SIZE> TcpServer::buffer_   {};
 
 
 
@@ -30,11 +28,11 @@ TcpServer::TcpServer(uint16_t port, std::string_view ip_address)
     : port_             {port}
     , ip_address_       {ip_address}
     , server_socket_fd_ {::socket(AF_INET, SOCK_STREAM, 0)}
-    , client_socket_fd_ {INVALID_SOCKET_FD}
+    , client_socket_fd_ {defines::INVALID_SOCKET_FD}
     , server_addr_info_ {}
     , client_addr_info_ {}
 {
-    if (server_socket_fd_ == INVALID_SOCKET_FD) {
+    if (server_socket_fd_ == defines::INVALID_SOCKET_FD) {
         throw errors::ServerError("socket() syscall failed!");
     }
 
@@ -50,11 +48,11 @@ TcpServer::TcpServer(uint16_t port, std::string_view ip_address)
 TcpServer::TcpServer(const sockaddr_in& addr_info)
     : port_             {addr_info.sin_port}
     , server_socket_fd_ {::socket(AF_INET, SOCK_STREAM, 0)}
-    , client_socket_fd_ {INVALID_SOCKET_FD}
+    , client_socket_fd_ {defines::INVALID_SOCKET_FD}
     , server_addr_info_ {addr_info}
     , client_addr_info_ {}
 {
-    if (server_socket_fd_ == INVALID_SOCKET_FD) {
+    if (server_socket_fd_ == defines::INVALID_SOCKET_FD) {
         throw errors::ServerError("socket() syscall failed!");
     }
 
@@ -72,9 +70,7 @@ TcpServer::TcpServer(const sockaddr_in& addr_info)
 
 
 TcpServer::~TcpServer()
-{
-    stop();
-}
+{ stop(); }
 
 
 
@@ -83,7 +79,7 @@ void TcpServer::start(uint16_t max_clients)
     if (::bind(server_socket_fd_,
                reinterpret_cast<sockaddr*>(&server_addr_info_),
                static_cast<socklen_t>(sizeof(server_addr_info_)))
-        == INVALID_SOCKET_FD) {
+        == defines::INVALID_SOCKET_FD) {
         throw errors::ServerError("bind() syscall failed!");
     }
 
@@ -102,7 +98,7 @@ void TcpServer::stop()
 
 void TcpServer::listen(uint16_t max_clients)
 {
-    if (::listen(server_socket_fd_, max_clients) == INVALID_SOCKET_FD) {
+    if (::listen(server_socket_fd_, max_clients) == defines::INVALID_SOCKET_FD) {
         throw errors::ServerError("listen() syscall failed!");
     }
 
@@ -112,7 +108,7 @@ void TcpServer::listen(uint16_t max_clients)
                                  reinterpret_cast<sockaddr*>(&client_addr_info_),
                                  &client_addr_info_length);
 
-    if (client_socket_fd_ == INVALID_SOCKET_FD) {
+    if (client_socket_fd_ == defines::INVALID_SOCKET_FD) {
         throw errors::ServerError("accept() syscall failed!");
     }
 

@@ -8,7 +8,11 @@
 #include <cstdint>
 #include <array>
 #include <string>
+#include <functional>
 #include <stdexcept>
+
+#include <netinet/in.h>
+
 
 
 
@@ -20,7 +24,7 @@ namespace alex::utils::network
 namespace detail
 {
 constexpr const char* LOCALHOST {"127.0.0.1"};
-} // namespace detail
+} // namespace alex::utils::network::detail
 
 namespace errors
 {
@@ -36,35 +40,41 @@ struct ClientError : public std::exception
 private:
     const char* message_;
 };
-} // namespace errors
+} // namespace alex::utils::network::errors
 
 
 
 class TcpClient
 {
 public:
-    explicit TcpClient();
-    TcpClient(uint16_t port, std::string_view ip_address = detail::LOCALHOST);
+    TcpClient();
+    explicit TcpClient(uint16_t port, std::string_view ip_address = detail::LOCALHOST);
 
-protected:
+    ~TcpClient();
 
+    bool connect();
+    bool connect(uint16_t port, std::string_view ip_address = detail::LOCALHOST);
 
-private:
-    int socket_fd_;
+    void disconnect();
 
+    virtual ssize_t send(const std::array<char, defines::BUFFER_SIZE>& buffer);
+    ssize_t send(std::string_view message);
+
+    virtual ssize_t receive(std::array<char, defines::BUFFER_SIZE>& buffer);
+
+    inline uint16_t remote_port() const noexcept
+    { return port_; }
+
+    inline std::string remote_ip_address() const noexcept
+    { return ip_address_; }
+
+private:    
     uint16_t port_;
     std::string ip_address_;
+
+    int socket_fd_;
+    sockaddr_in addr_info_;
 };
-
-
-
-TcpClient::TcpClient()
-    : socket_fd_ {}
-{}
-
-TcpClient::TcpClient(uint16_t port, std::string_view ip_address)
-
-{  }
 
 } // namespace alex::utils::network
 
