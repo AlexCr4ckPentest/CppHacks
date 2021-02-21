@@ -148,7 +148,7 @@ public:
     return *this;
   }
 
-  tcp_server& when_client_disconnected(const std::function<void()>&& client_disconnected_handler)
+  tcp_server& when_client_disconnected(const std::function<void()>& client_disconnected_handler)
   {
     client_disconnected_handler_ = client_disconnected_handler;
     return *this;
