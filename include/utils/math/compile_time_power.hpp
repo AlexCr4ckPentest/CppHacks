@@ -78,6 +78,7 @@ constexpr number_type ct_power(number_type number, size_t pow)
 {
     if (pow == 0) return 1;
     if (pow == 1) return number;
+    if (number == 2) return 1 << pow;
     return number * ct_power(number, pow - 1);
 }
 #endif
