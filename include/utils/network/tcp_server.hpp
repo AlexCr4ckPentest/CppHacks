@@ -19,6 +19,8 @@ namespace alex::utils::network
 {
 namespace asio = boost::asio;
 
+
+
 class tcp_session : public std::enable_shared_from_this<tcp_session>
 {
 public:
@@ -47,7 +49,7 @@ public:
     return this;
   }
 
-  protected:
+protected:
   virtual void receive()
   {
     socket_.async_read_some(asio::buffer(buffer_, buffer_.max_size()),
@@ -86,12 +88,6 @@ private:
   static std::function<void()> when_destryed_;
   static std::function<void(std::string_view)> when_data_received_;
 };
-
-/* Initializing static members for class tcp_session
- */
-std::array<char, 2048> tcp_session::buffer_{};
-std::function<void()> tcp_session::when_destryed_{[]() {}};
-std::function<void(std::string_view)> tcp_session::when_data_received_{[](std::string_view) {}};
 
 
 
@@ -162,6 +158,16 @@ private:
   static std::function<void()> client_disconnected_handler_;
   static std::function<void(std::string_view)> data_received_handler_;
 };
+
+
+
+/* Initializing static members for class tcp_session
+ */
+std::array<char, 2048> tcp_session::buffer_{};
+std::function<void()> tcp_session::when_destryed_{[]() {}};
+std::function<void(std::string_view)> tcp_session::when_data_received_{[](std::string_view) {}};
+
+
 
 /* Initializing static members for class tcp_server
  */
