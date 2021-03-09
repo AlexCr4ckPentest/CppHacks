@@ -21,7 +21,7 @@
 
 
 
-namespace alex::utils::math::ct_factorial
+namespace alex::utils::math
 {
 namespace concepts
 {
@@ -48,7 +48,7 @@ struct IsIntegerType
     };
 };
 #endif
-}; // namespace alex::utils::math::ct_factorial::concepts
+}; // namespace alex::utils::math::concepts
 
 
 
@@ -160,6 +160,6 @@ struct ct_factorial<integer_type, 0> : std::integral_constant<integer_type, 1> {
 
 #endif
 
-} // namespace alex::utils::math::ct_factorial
+} // namespace alex::utils::math
 
 #endif // COMPILE_TIME_FACTORIAL_HPP

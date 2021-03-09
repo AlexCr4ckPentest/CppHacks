@@ -12,7 +12,7 @@
 #ifndef COMPILE_TIME_POWER_HPP
 #define COMPILE_TIME_POWER_HPP
 
-namespace alex::utils::math::ct_power
+namespace alex::utils::math
 {
 namespace concepts
 {
@@ -26,7 +26,7 @@ concept NumberType = std::is_integral_v<T> ||
 template<typename T> struct IsNumberType
 { static constexpr bool value{std::is_integral<T>::value || std::is_floating_point<T>::value}; };
 #endif
-} // namespace alex::utils::math::ct_power::concepts
+} // namespace alex::utils::math::concepts
 
 
 
@@ -82,5 +82,5 @@ constexpr number_type ct_power(number_type number, size_t pow)
 }
 #endif
 
-} // namespace alex::utils::math::ct_power
+} // namespace alex::utils::math
 #endif // COMPILE_TIME_POWER_HPP
