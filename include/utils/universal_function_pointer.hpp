@@ -15,14 +15,14 @@
  *  void(*pure_p_foo)() = p_foo; // universal_function_pointer class can be converted to a pure function pointer
 */
 
-#include <bits/move.h> // std::forward
+#include <utility> // std::forward
 
 
 
 #ifndef UNIVERSAL_FUNCTION_POINTER_HPP
 #define UNIVERSAL_FUNCTION_POINTER_HPP
 
-namespace alex {
+namespace alex::utils {
 
 template<typename FuncSignature>
 class universal_function_pointer
@@ -61,6 +61,6 @@ private:
     function_pointer callable_;
 };
 
-} // namespace alex
+} // namespace alex::utils
 
 #endif // UNIVERSAL_FUNCTION_POINTER_HPP
