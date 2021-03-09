@@ -14,7 +14,4 @@
 // math module
 #include "math/math.hpp"
 
-// network module
-#include "network/network.hpp"
-
 #endif // UTILS_HPP
