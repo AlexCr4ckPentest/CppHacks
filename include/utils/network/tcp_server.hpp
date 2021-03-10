@@ -19,14 +19,15 @@ namespace alex::utils::network
 {
 namespace asio = boost::asio;
 
-
-
 class tcp_session : public std::enable_shared_from_this<tcp_session>
 {
 public:
   explicit tcp_session(asio::ip::tcp::socket&& socket)
     : socket_{std::move(socket)}
   {}
+
+  ~tcp_session()
+  { when_destryed_(); }
 
   // No copy, no move
   tcp_session(tcp_session&&) = delete;
