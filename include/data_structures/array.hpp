@@ -13,7 +13,7 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
-namespace alex::data_structutes
+namespace alex::data_structures
 {
 namespace detail
 {
