@@ -20,20 +20,32 @@ namespace alex::data_structures
     template<typename T>
     struct forward_list_node
     {
-      forward_list_node(forward_list_node* next) : next_{next} , data_{} {}
+      forward_list_node(forward_list_node* next, const T& data)
+        : next_{next} , data_{data}
+      {}
 
       template<typename... Args>
       forward_list_node(forward_list_node* next, Args&&... args)
-        : next_{next_}
-        , data_{std::forward<Args>(args)...}
+        : next_{next} , data_{std::forward<Args>(args)...}
       {}
 
       forward_list_node* next_;
       T data_;
     };
 
-    struct forward_list_iterator {};
-    struct forward_list_reverse_iterator {};
+    template<typename T>
+    struct forward_list_iterator
+    {
+    private:
+      forward_list_node<T>* ptr_;
+    };
+
+    template<typename T>
+    struct forward_list_reverse_iterator
+    {
+    private:
+      forward_list_node<T>* ptr_;
+    };
   } // namespace alex::data_structures::detail::fw_list
 
   template<typename T>
@@ -41,6 +53,7 @@ namespace alex::data_structures
   {
     using node = detail::fw_list::forward_list_node<T>;
 
+#if 1
     using value_type        = T;
     using size_type         = std::size_t;
     using difference_type   = std::ptrdiff_t;
@@ -48,10 +61,9 @@ namespace alex::data_structures
     using const_pointer     = const value_type*;
     using reference         = value_type&;
     using const_reference   = const value_type&;
-    using iterator          = detail::fw_list::forward_list_iterator;
-    using reverse_iterator  = detail::fw_list::forward_list_reverse_iterator;
-
-
+    using iterator          = detail::fw_list::forward_list_iterator<T>;
+    using reverse_iterator  = detail::fw_list::forward_list_reverse_iterator<T>;
+#endif
 
     forward_list()
       : head_{nullptr}
@@ -60,18 +72,64 @@ namespace alex::data_structures
     {}
 
     void push_back(const T& data)
-    {}
+    {
+      if (head_ == nullptr)
+      {
+        head_ = new node{nullptr, data};
+        last_ = head_;
+      }
+      else
+      {
+        node* list_node{head_};
+
+        while (list_node->next_ != nullptr)
+        {
+          list_node = list_node->next_;
+        }
+
+        list_node->next_ = new node{nullptr, data};
+        last_ = list_node->next_;
+      }
+      size_++;
+    }
 
     template<typename... Args>
     void emplace_back(Args&&... args)
     {
-      node* new_node = new node{nullptr, args...};
-      last_ = new_node;
+      if (head_ == nullptr)
+      {
+        head_ = new node{nullptr, std::forward<Args>(args)...};
+        last_ = head_;
+      }
+      else
+      {
+        node* list_node{head_};
+
+        while (list_node->next_ != nullptr)
+        {
+          list_node = list_node->next_;
+        }
+
+        list_node->next_ = new node{nullptr, std::forward<Args>(args)...};
+        last_ = list_node->next_;
+      }
+      size_++;
     }
 
+    void push_front(const T& data)
+    {
+      head_ = new node{head_, data};
+      size_++;
+    }
 
+    template<typename... Args>
+    void emplace_front(Args&&... args)
+    {
+      head_ = new node{head_, std::forward<Args>(args)...};
+      size_++;
+    }
 
-    reference front() noexcept
+    reference front()
     { return head_->data_; }
 
     const_reference front() const noexcept
