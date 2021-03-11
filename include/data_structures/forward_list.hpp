@@ -36,12 +36,18 @@ namespace alex::data_structures
     template<typename T>
     struct forward_list_iterator
     {
+      using value_type          = T;
+      using pointer             = value_type*;
+      using reference           = value_type&;
+      using difference_type     = std::ptrdiff_t;
+      using iterator_category   = std::forward_iterator_tag;
+
     private:
       forward_list_node<T>* ptr_;
     };
 
     template<typename T>
-    struct forward_list_reverse_iterator
+    struct forward_list_const_iterator
     {
     private:
       forward_list_node<T>* ptr_;
@@ -62,7 +68,7 @@ namespace alex::data_structures
     using reference         = value_type&;
     using const_reference   = const value_type&;
     using iterator          = detail::fw_list::forward_list_iterator<T>;
-    using reverse_iterator  = detail::fw_list::forward_list_reverse_iterator<T>;
+    using const_iterator    = const iterator;
 #endif
 
     forward_list()
