@@ -42,13 +42,36 @@ namespace alex::data_structures
       using difference_type     = std::ptrdiff_t;
       using iterator_category   = std::forward_iterator_tag;
 
-    private:
-      forward_list_node<T>* ptr_;
-    };
+      forward_list_iterator() noexcept : ptr_{nullptr} {}
+      forward_list_iterator(forward_list_node<T>* head) noexcept : ptr_{head} {}
 
-    template<typename T>
-    struct forward_list_const_iterator
-    {
+      forward_list_iterator(forward_list_iterator&&) noexcept = default;
+      forward_list_iterator(const forward_list_iterator&) noexcept = default;
+      forward_list_iterator& operator=(forward_list_iterator&&) noexcept = default;
+      forward_list_iterator& operator=(const forward_list_iterator&) noexcept = default;
+
+      forward_list_iterator operator++(int) noexcept
+      {
+        forward_list_iterator tmp{ptr_};
+        ptr_ = ptr_->next_;
+        return tmp;
+      }
+
+      forward_list_iterator& operator++() noexcept
+      {
+        ptr_ = ptr_->next_;
+        return *this;
+      }
+
+      bool operator==(const forward_list_iterator& other) const noexcept
+      { return ptr_ == other.ptr_; }
+
+      bool operator!=(const forward_list_iterator& other) const noexcept
+      { return !(*this == other); }
+
+      reference operator*() const noexcept
+      { return ptr_->data_; }
+
     private:
       forward_list_node<T>* ptr_;
     };
@@ -57,9 +80,10 @@ namespace alex::data_structures
   template<typename T>
   struct forward_list
   {
-    using node = detail::fw_list::forward_list_node<T>;
+  private:
+    using forward_list_node = detail::fw_list::forward_list_node<T>;
 
-#if 1
+  public:
     using value_type        = T;
     using size_type         = std::size_t;
     using difference_type   = std::ptrdiff_t;
@@ -68,8 +92,7 @@ namespace alex::data_structures
     using reference         = value_type&;
     using const_reference   = const value_type&;
     using iterator          = detail::fw_list::forward_list_iterator<T>;
-    using const_iterator    = const iterator;
-#endif
+    using const_iterator    = detail::fw_list::forward_list_iterator<const T>;
 
     forward_list()
       : head_{nullptr}
@@ -81,19 +104,19 @@ namespace alex::data_structures
     {
       if (head_ == nullptr)
       {
-        head_ = new node{nullptr, data};
+        head_ = new forward_list_node{nullptr, data};
         last_ = head_;
       }
       else
       {
-        node* list_node{head_};
+        forward_list_node* list_node{head_};
 
         while (list_node->next_ != nullptr)
         {
           list_node = list_node->next_;
         }
 
-        list_node->next_ = new node{nullptr, data};
+        list_node->next_ = new forward_list_node{nullptr, data};
         last_ = list_node->next_;
       }
       size_++;
@@ -104,19 +127,19 @@ namespace alex::data_structures
     {
       if (head_ == nullptr)
       {
-        head_ = new node{nullptr, std::forward<Args>(args)...};
+        head_ = new forward_list_node{nullptr, std::forward<Args>(args)...};
         last_ = head_;
       }
       else
       {
-        node* list_node{head_};
+        forward_list_node* list_node{head_};
 
         while (list_node->next_ != nullptr)
         {
           list_node = list_node->next_;
         }
 
-        list_node->next_ = new node{nullptr, std::forward<Args>(args)...};
+        list_node->next_ = new forward_list_node{nullptr, std::forward<Args>(args)...};
         last_ = list_node->next_;
       }
       size_++;
@@ -124,18 +147,20 @@ namespace alex::data_structures
 
     void push_front(const T& data)
     {
-      head_ = new node{head_, data};
+      head_ = new forward_list_node{head_, data};
       size_++;
     }
 
     template<typename... Args>
     void emplace_front(Args&&... args)
     {
-      head_ = new node{head_, std::forward<Args>(args)...};
+      head_ = new forward_list_node{head_, std::forward<Args>(args)...};
       size_++;
     }
 
-    reference front()
+
+
+    reference front() noexcept
     { return head_->data_; }
 
     const_reference front() const noexcept
@@ -147,9 +172,26 @@ namespace alex::data_structures
     const_reference back() const noexcept
     { return last_->data_; }
 
+
+
+    iterator begin() noexcept
+    { return iterator{head_}; }
+
+    iterator end() noexcept
+    { return iterator{last_->next_}; }
+
+    const_iterator begin() const noexcept
+    { return const_iterator{}; }
+
+    const_iterator cbegin() const noexcept
+    { return const_iterator{head_}; }
+
+    const_iterator cend() const noexcept
+    { return const_iterator{last_->next_}; }
+
   private:
-    node* head_;
-    node* last_;
+    forward_list_node* head_;
+    forward_list_node* last_;
     size_t size_;
   };
 } // namespace alex::data_structures
