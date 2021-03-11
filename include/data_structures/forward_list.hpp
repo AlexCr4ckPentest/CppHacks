@@ -63,6 +63,15 @@ namespace alex::data_structures
         return *this;
       }
 
+      forward_list_iterator& operator+(const difference_type offset)
+      {
+        for (difference_type i{0}; i < offset; i++)
+        {
+          operator++();
+        }
+        return *this;
+      }
+
       bool operator==(const forward_list_iterator& other) const noexcept
       { return ptr_ == other.ptr_; }
 
