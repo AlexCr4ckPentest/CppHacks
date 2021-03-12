@@ -103,11 +103,14 @@ namespace alex::data_structures
     using iterator          = detail::fw_list::forward_list_iterator<T>;
     using const_iterator    = detail::fw_list::forward_list_iterator<const T>;
 
-    forward_list()
+    forward_list() noexcept
       : head_{nullptr}
       , last_{nullptr}
       , size_{0}
     {}
+
+    ~forward_list()
+    { clear(); }
 
     void push_back(const T& data)
     {
@@ -167,6 +170,60 @@ namespace alex::data_structures
       size_++;
     }
 
+    void pop_back() noexcept
+    {
+      if (head_ != nullptr)
+      {
+        if (size_ == 1)
+        {
+          delete last_;
+          last_ = nullptr;
+        }
+        else
+        {
+          forward_list_node* list_node{head_};
+
+          while (list_node->next_->next_ != nullptr)
+          {
+            list_node = list_node->next_;
+          }
+
+          delete list_node->next_;
+          list_node->next_ = nullptr;
+          last_ = list_node;
+        }
+        size_--;
+      }
+    }
+
+    void pop_front() noexcept
+    {
+      if (head_ != nullptr)
+      {
+        forward_list_node* list_node{head_};
+        head_ = head_->next_;
+
+        delete list_node;
+        size_--;
+      }
+    }
+
+    void clear() noexcept
+    {
+      while (size_ != 0)
+      {
+        pop_front();
+      }
+    }
+
+    void insert(const T& data, size_type index)
+    {
+      if (index >= size_)
+      {}
+      else
+      {}
+    }
+
 
 
     reference front() noexcept
@@ -205,7 +262,7 @@ namespace alex::data_structures
     forward_list_node* head_;
     forward_list_node* last_;
     size_t size_;
-  };
+  };  
 } // namespace alex::data_structures
 
 #endif // FORWARD_LIST_HPP
