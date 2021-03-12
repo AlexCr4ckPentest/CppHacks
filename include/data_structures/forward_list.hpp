@@ -226,6 +226,12 @@ namespace alex::data_structures
 
 
 
+    size_type size() const noexcept
+    { return size_; }
+
+    bool is_empty() const noexcept
+    { return size_ == 0; }
+
     reference front() noexcept
     { return head_->data_; }
 
@@ -261,7 +267,7 @@ namespace alex::data_structures
   private:
     forward_list_node* head_;
     forward_list_node* last_;
-    size_t size_;
+    size_type size_;
   };  
 } // namespace alex::data_structures
 
