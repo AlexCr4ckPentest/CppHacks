@@ -190,7 +190,10 @@ namespace alex::data_structures
     { return iterator{last_->next_}; }
 
     const_iterator begin() const noexcept
-    { return const_iterator{}; }
+    { return const_iterator{head_}; }
+
+    iterator end() const noexcept
+    { return iterator{last_->next_}; }
 
     const_iterator cbegin() const noexcept
     { return const_iterator{head_}; }
