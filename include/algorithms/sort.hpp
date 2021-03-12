@@ -17,13 +17,16 @@
 namespace alex::algorithms::sort
 {
   template<std::random_access_iterator Iterator, typename Comparator = std::less<>>
-  void bubble_sort(Iterator first, Iterator last, Comparator&& comp = Comparator{}) {}
+  void bubble_sort(Iterator first, Iterator last, Comparator&& comp = Comparator{})
+  { /* Implementation here */ }
 
   template<std::random_access_iterator Iterator, typename Comparator = std::less<>>
-  void quick_sort(Iterator first, Iterator last, Comparator&& comp = Comparator{}) {}
+  void quick_sort(Iterator first, Iterator last, Comparator&& comp = Comparator{})
+  { /* Implementation here */ }
 
   template<std::random_access_iterator Iterator, typename Comparator = std::less<>>
-  void merge_sort(Iterator first, Iterator last, Comparator&& comp = Comparator{}) {}
+  void merge_sort(Iterator first, Iterator last, Comparator&& comp = Comparator{})
+  { /* Implementation here */ }
 } // namespace alex::algorithms::sort
 
 #endif // SORT_ALGO_HPP
