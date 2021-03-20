@@ -34,3 +34,7 @@
 *build*
 *.user*
 
+src/compile_commands.json
+
+src/.cache
+.vscode
