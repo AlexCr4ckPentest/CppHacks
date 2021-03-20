@@ -17,4 +17,8 @@
 // network module
 #include "network/network.hpp"
 
+// some helpers for C++ coroutines
+#include "coroutine_helpers.hpp"
+#include "sequence_generator.hpp"
+
 #endif // UTILS_HPP

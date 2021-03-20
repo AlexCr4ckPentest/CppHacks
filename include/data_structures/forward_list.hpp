@@ -15,7 +15,7 @@
 
 namespace alex::data_structures
 {
-  namespace detail::fw_list
+  namespace detail::forward_list
   {
     template<typename T>
     struct forward_list_node
@@ -84,13 +84,13 @@ namespace alex::data_structures
     private:
       forward_list_node<T>* ptr_;
     };
-  } // namespace alex::data_structures::detail::fw_list
+  } // namespace alex::data_structures::detail::forward_list
 
   template<typename T>
   struct forward_list
   {
   private:
-    using forward_list_node = detail::fw_list::forward_list_node<T>;
+    using forward_list_node = detail::forward_list::forward_list_node<T>;
 
   public:
     using value_type        = T;
@@ -100,8 +100,8 @@ namespace alex::data_structures
     using const_pointer     = const T*;
     using reference         = T&;
     using const_reference   = const T&;
-    using iterator          = detail::fw_list::forward_list_iterator<T>;
-    using const_iterator    = detail::fw_list::forward_list_iterator<const T>;
+    using iterator          = detail::forward_list::forward_list_iterator<T>;
+    using const_iterator    = detail::forward_list::forward_list_iterator<const T>;
 
     forward_list() noexcept
       : head_{nullptr}
@@ -219,9 +219,21 @@ namespace alex::data_structures
     void insert(const T& data, size_type index)
     {
       if (index >= size_)
-      {}
+      {
+        std::__throw_out_of_range_fmt("%s: index %zu out of range!", __PRETTY_FUNCTION__, index);
+      }
+      else if (index == 0)
+      {
+        push_front(data);
+      }
+      else if (index == (size_ - 1))
+      {
+        push_back(data);
+      }
       else
-      {}
+      {
+        
+      }
     }
 
 
