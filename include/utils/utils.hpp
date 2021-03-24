@@ -1,5 +1,5 @@
-#ifndef UTILS_HPP
-#define UTILS_HPP
+#ifndef _UTILS_HPP_
+#define _UTILS_HPP_
 
 #include "overload.hpp"
 #include "universal_function_pointer.hpp"
@@ -21,4 +21,4 @@
 #include "coroutine_helpers.hpp"
 #include "sequence_generator.hpp"
 
-#endif // UTILS_HPP
+#endif // _UTILS_HPP_

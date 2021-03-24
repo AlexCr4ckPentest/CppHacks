@@ -5,12 +5,13 @@
 
 
 
-#include <type_traits>  // Legacy C++ SFINAE    :(
+#ifndef _CONCEPTS_HPP_
+#define _CONCEPTS_HPP_
 
+#include <type_traits>  // Legacy C++ SFINAE    :(
 #include <concepts>     // Modern C++ "SFINAE"  :)
 
-#ifndef CONCEPTS_HPP
-#define CONCEPTS_HPP
+
 
 /* Declaration helpers for concepts like has_method_XXX<>
  */
@@ -46,10 +47,8 @@ concept has_field_##field_name = requires (T t) \
 
 
 
-namespace alex::utils::concepts {
-
-// Here will be concepts. But it`s empty here :(
-
+namespace alex::utils::concepts
+{
 } // namespace alex::utils::concepts
 
-#endif // CONCEPTS_HPP
+#endif // _CONCEPTS_HPP_

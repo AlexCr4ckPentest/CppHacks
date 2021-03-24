@@ -6,7 +6,8 @@
 
 
 
-#pragma once
+#ifndef _COROUTINE_HELPERS_HPP_
+#define _COROUTINE_HELPERS_HPP_
 
 #include <coroutine>
 
@@ -73,3 +74,5 @@ namespace alex::utils::coroutine_helpers
         coro_handle handle_;
     };
 } // namespace alex::utils::coroutine_helpers
+
+#endif // _COROUTINE_HELPERS_HPP_

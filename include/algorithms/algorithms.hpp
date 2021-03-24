@@ -1,7 +1,7 @@
-#ifndef ALGORITHMS_HPP
-#define ALGORITHMS_HPP
+#ifndef _ALGORITHMS_HPP_
+#define _ALGORITHMS_HPP_
 
 #include "sort.hpp"
 #include "find.hpp"
 
-#endif // ALGORITHMS_HPP
+#endif // _ALGORITHMS_HPP_

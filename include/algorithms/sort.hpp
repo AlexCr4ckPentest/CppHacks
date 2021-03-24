@@ -5,14 +5,14 @@
 
 
 
+#ifndef _SORT_ALGO_HPP_
+#define _SORT_ALGO_HPP_
+
 #include <type_traits>
 #include <concepts>
 #include <iterator>
 
 
-
-#ifndef SORT_ALGO_HPP
-#define SORT_ALGO_HPP
 
 namespace alex::algorithms::sort
 {
@@ -64,4 +64,4 @@ namespace alex::algorithms::sort
   { /* Implementation here */ }
 } // namespace alex::algorithms::sort
 
-#endif // SORT_ALGO_HPP
+#endif // _SORT_ALGO_HPP_

@@ -15,52 +15,53 @@
  *  void(*pure_p_foo)() = p_foo; // universal_function_pointer class can be converted to a pure function pointer
 */
 
+
+
+#ifndef _UNIVERSAL_FUNCTION_POINTER_HPP_
+#define _UNIVERSAL_FUNCTION_POINTER_HPP_
+
 #include <utility> // std::forward
 
 
 
-#ifndef UNIVERSAL_FUNCTION_POINTER_HPP
-#define UNIVERSAL_FUNCTION_POINTER_HPP
-
-namespace alex::utils {
-
-template<typename FuncSignature>
-class universal_function_pointer
+namespace alex::utils
 {
-    using function_pointer = FuncSignature(*);
-public:
-    constexpr universal_function_pointer()
-        : callable_{nullptr}
-    {}
-
-    constexpr universal_function_pointer(function_pointer callable)
-        : callable_{callable}
-    {}
-
-    constexpr universal_function_pointer(const universal_function_pointer& other)
-        : callable_{other.callable_}
-    {}
-
-    constexpr universal_function_pointer& operator=(const universal_function_pointer& other)
+    template<typename FuncSignature>
+    class universal_function_pointer
     {
-        callable_ = other.callable_;
-        return *this;
-    }
+        using function_pointer = FuncSignature(*);
+    public:
+        constexpr universal_function_pointer()
+            : callable_{nullptr}
+        {}
 
-    constexpr universal_function_pointer(universal_function_pointer&& other) = default;
-    constexpr universal_function_pointer& operator=(universal_function_pointer&& other) = default;
+        constexpr universal_function_pointer(function_pointer callable)
+            : callable_{callable}
+        {}
 
-    template<typename... Args>
-    constexpr decltype(auto) operator()(Args&&... args) const
-    { return callable_(std::forward<Args&&>(args)...); } // Perfect forwarding, no copy, just only forward argument in function
+        constexpr universal_function_pointer(const universal_function_pointer& other)
+            : callable_{other.callable_}
+        {}
 
-    constexpr operator function_pointer() const noexcept
-    { return callable_; }
+        constexpr universal_function_pointer& operator=(const universal_function_pointer& other)
+        {
+            callable_ = other.callable_;
+            return *this;
+        }
 
-private:
-    function_pointer callable_;
-};
+        constexpr universal_function_pointer(universal_function_pointer&& other) = default;
+        constexpr universal_function_pointer& operator=(universal_function_pointer&& other) = default;
 
+        template<typename... Args>
+        constexpr decltype(auto) operator()(Args&&... args) const
+        { return callable_(std::forward<Args&&>(args)...); } // Perfect forwarding, no copy, just only forward argument in function
+
+        constexpr operator function_pointer() const noexcept
+        { return callable_; }
+
+    private:
+        function_pointer callable_;
+    };
 } // namespace alex::utils
 
-#endif // UNIVERSAL_FUNCTION_POINTER_HPP
+#endif // _UNIVERSAL_FUNCTION_POINTER_HPP_

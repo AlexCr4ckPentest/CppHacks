@@ -5,8 +5,8 @@
 
 
 
-#ifndef MATH_HPP
-#define MATH_HPP
+#ifndef _MATH_HPP_
+#define _MATH_HPP_
 
 #define __RECURSIVE_CONSTEXPR_FUNCTION_FACTORIAL_COMPUTING
 #include "compile_time_factorial.hpp"
@@ -14,4 +14,4 @@
 
 #include "compile_time_power.hpp"
 
-#endif // MATH_HPP
+#endif // _MATH_HPP_

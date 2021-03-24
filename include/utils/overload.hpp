@@ -20,18 +20,17 @@
 
 
 
-#ifndef OVERLOAD_HPP
-#define OVERLOAD_HPP
+#ifndef _OVERLOAD_HPP_
+#define _OVERLOAD_HPP_
 
-namespace alex::utils {
+namespace alex::utils
+{
+    template<typename... CallableObject>
+    struct overload : CallableObject...   // Because lambda is the struct with overloaded operator()
+    { using CallableObject::operator()...; }; // Since C++17, it's very cool!! Just one line of code ))
 
-template<typename... CallableObject>
-struct overload : CallableObject...   // Because lambda is the struct with overloaded operator()
-{ using CallableObject::operator()...; }; // Since C++17, it's very cool!! Just one line of code ))
-
-// CTAD
-template<typename... CallableObject> overload(CallableObject...) -> overload<CallableObject...>;
-
+    // CTAD
+    template<typename... CallableObject> overload(CallableObject...) -> overload<CallableObject...>;
 } // namespace alex::utils
 
-#endif // OVERLOAD_HPP
+#endif // _OVERLOAD_HPP_

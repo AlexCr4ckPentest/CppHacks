@@ -5,13 +5,13 @@
 
 
 
+#ifndef _FORWARD_LIST_HPP_
+#define _FORWARD_LIST_HPP_
+
 #include <utility>
 #include <iterator>
 
 
-
-#ifndef FORWARD_LIST_HPP
-#define FORWARD_LIST_HPP
 
 namespace alex::data_structures
 {
@@ -283,4 +283,4 @@ namespace alex::data_structures
   };  
 } // namespace alex::data_structures
 
-#endif // FORWARD_LIST_HPP
+#endif // _FORWARD_LIST_HPP_

@@ -5,13 +5,13 @@
 
 
 
+#ifndef _FIND_ALGO_HPP_
+#define _FIND_ALGO_HPP_
+
 #include <concepts>
 #include <iterator>
 
 
-
-#ifndef FIND_ALGO_HPP
-#define FIND_ALGO_HPP
 
 namespace alex::algorithms::find
 {
@@ -42,7 +42,6 @@ namespace alex::algorithms::find
     return first;
   }
 
-  // Since C++11
   template<std::input_iterator Iterator, typename UnaryPredicate>
   constexpr auto find_if_not(Iterator first, Iterator last, UnaryPredicate&& pred)
   { return find_if(first, last, std::not1(pred)); }
@@ -65,4 +64,4 @@ namespace alex::algorithms::find
   }
 } // namesapce alex::algorithms::find
 
-#endif // FIND_ALGO_HPP
+#endif // _FIND_ALGO_HPP_
