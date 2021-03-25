@@ -27,13 +27,13 @@ namespace alex::utils::math
     namespace concepts
     {
 #if __cplusplus > 201703L && __cpp_concepts >= 201907L
-    template<typename T>
-    concept IntegerType =
+        template<typename T>
+        concept IntegerType =
 #if defined(__RECURSIVE_TEMPLATE_INSTANTIATION_FACTORIAL_COMPUTING) || defined(__RECURSIVE_CONSTEXPR_FUNCTION_FACTORIAL_COMPUTING) ||   \
     defined(__CONSTEXPR_FUNCTION_FOR_LOOP_FACTORIAL_COMPUTING)
-        std::is_integral_v<T> || boost::multiprecision::is_number<T>::value;
+            std::is_integral_v<T> || boost::multiprecision::is_number<T>::value;
 #else
-        std::is_integral_v<T>;
+            std::is_integral_v<T>;
 #endif
 #else
     template<typename T>

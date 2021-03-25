@@ -18,7 +18,6 @@
 #include "network/network.hpp"
 
 // some helpers for C++ coroutines
-#include "coroutine_helpers.hpp"
-#include "sequence_generator.hpp"
+#include "coro/coro_helpers.hpp"
 
 #endif // _UTILS_HPP_

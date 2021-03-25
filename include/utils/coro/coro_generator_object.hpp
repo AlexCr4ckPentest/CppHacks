@@ -1,13 +1,10 @@
-/* coroutine_helpers.hpp
+/* coro_generator_object.hpp
  *
- * Some simple coroutine helpers and awaitable objects
- * Such as generator
+ * Simple generator object for coroutines
 */
 
-
-
-#ifndef _COROUTINE_HELPERS_HPP_
-#define _COROUTINE_HELPERS_HPP_
+#ifndef _CORO_GENERATOR_OBJECT_HPP_
+#define _CORO_GENERATOR_OBJECT_HPP_
 
 #include <coroutine>
 
@@ -15,26 +12,22 @@
 
 namespace alex::utils::coroutine_helpers
 {
-    template<typename T>
-    struct generator
+    namespace impl::generator_obj
     {
+        template<typename T>
         struct promise_type
         {
-            auto initial_suspend() noexcept
-            { return std::suspend_always{}; }
+            auto initial_suspend() noexcept { return std::suspend_always{}; }
+            auto final_suspend() noexcept { return std::suspend_always{}; }
 
-            auto final_suspend() noexcept
-            { return std::suspend_always{}; }
-
-            void unhandled_exception()
-            { std::terminate(); }
+            void unhandled_exception() { std::terminate(); }
 
             auto get_return_object()
             { return std::coroutine_handle<promise_type>::from_promise(*this); }
 
             void return_void() {}
 
-            auto yield_value(T value)
+            auto yield_value(T&& value)
             {
                 value_ = value;
                 return std::suspend_always{};
@@ -42,9 +35,12 @@ namespace alex::utils::coroutine_helpers
 
             T value_;
         };
+    } // namespace alex::utils::coroutine_helpers::impl::generator_obj
 
-
-
+    template<typename T>
+    struct generator
+    {
+        using promise_type = impl::generator_obj::promise_type<T>;
         using coro_handle = std::coroutine_handle<promise_type>;
 
         generator(coro_handle handle) : handle_{handle} {}
@@ -53,7 +49,7 @@ namespace alex::utils::coroutine_helpers
         {
             if (handle_)
             {
-                handle_.destroy(); 
+                handle_.destroy();
             }
         }
 
@@ -75,4 +71,4 @@ namespace alex::utils::coroutine_helpers
     };
 } // namespace alex::utils::coroutine_helpers
 
-#endif // _COROUTINE_HELPERS_HPP_
+#endif // _CORO_GENERATOR_OBJECT_HPP_

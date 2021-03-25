@@ -20,7 +20,6 @@ template<typename T, typename RetValue, typename... Args>   \
 concept has_method_##method_name = requires (T t, Args... args)  \
 {    \
     { t.method_name(args...) } -> std::same_as<RetValue>;     \
-    std::is_invocable_r_v<RetValue, decltype(&T::method_name), Args...>;    \
 }
 
 #define __DECLARE_CONCEPT__HAS_METHOD_R(method_name, ret_value) \
@@ -28,7 +27,6 @@ template<typename T, typename... Args>   \
 concept has_method_##method_name = requires (T t, Args... args)  \
 {    \
     { t.method_name(args...) } -> std::same_as<ret_value>;     \
-    std::is_invocable_r_v<ret_value, decltype(&T::method_name), Args...>;    \
 }
 
 
