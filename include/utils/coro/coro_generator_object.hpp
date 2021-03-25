@@ -27,7 +27,7 @@ namespace alex::utils::coroutine_helpers
 
             void return_void() {}
 
-            auto yield_value(T&& value)
+            auto yield_value(T value)
             {
                 value_ = value;
                 return std::suspend_always{};
