@@ -1,6 +1,6 @@
-#ifndef NETWORK_HPP
-#define NETWORK_HPP
+#ifndef _NETWORK_HPP_
+#define _NETWORK_HPP_
 
 #include "tcp_server.hpp"
 
-#endif // NETWORK_HPP
+#endif // _NETWORK_HPP_

@@ -5,15 +5,15 @@
 
 
 
+#ifndef _TCP_SERVER_HPP_
+#define _TCP_SERVER_HPP_
+
 #include <memory>
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 
 
-
-#ifndef TCP_SERVER_HPP
-#define TCP_SERVER_HPP
 
 namespace alex::utils::network
 {
@@ -178,4 +178,4 @@ std::function<void(std::string_view)> tcp_server::data_received_handler_{[](std:
 
 } // namespace alex::utils::network
 
-#endif // TCP_SERVER_HPP
+#endif // _TCP_SERVER_HPP_

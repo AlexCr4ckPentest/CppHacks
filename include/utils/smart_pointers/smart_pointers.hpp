@@ -1,6 +1,6 @@
-#ifndef SMART_POINTERS_HPP
-#define SMART_POINTERS_HPP
+#ifndef _SMART_POINTERS_HPP_
+#define _SMART_POINTERS_HPP_
 
 #include "scoped_ptr.hpp"
 
-#endif // SMART_POINTERS_HPP
+#endif // _SMART_POINTERS_HPP_

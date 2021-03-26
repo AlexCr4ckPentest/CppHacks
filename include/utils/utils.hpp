@@ -1,5 +1,5 @@
-#ifndef UTILS_HPP
-#define UTILS_HPP
+#ifndef _UTILS_HPP_
+#define _UTILS_HPP_
 
 #include "overload.hpp"
 #include "universal_function_pointer.hpp"
@@ -17,4 +17,7 @@
 // network module
 #include "network/network.hpp"
 
-#endif // UTILS_HPP
+// some helpers for C++ coroutines
+#include "coro/coro_helpers.hpp"
+
+#endif // _UTILS_HPP_

@@ -4,83 +4,81 @@
 
 
 
+#ifndef _COMPILE_TIME_POWER_HPP_
+#define _COMPILE_TIME_POWER_HPP_
+
 #include <type_traits>
 
 #include <boost/multiprecision/cpp_int.hpp>
 
 
-#ifndef COMPILE_TIME_POWER_HPP
-#define COMPILE_TIME_POWER_HPP
 
 namespace alex::utils::math
 {
-namespace concepts
-{
-#if __cplusplus > 201703L && __cpp_concepts >= 201907L
-template<typename T>
-concept NumberType = std::is_integral_v<T> ||
-                    std::is_floating_point_v<T> ||
-                    boost::multiprecision::is_number<T>::value;
-#else
-// Legacy SFINAE
-template<typename T> struct IsNumberType
-{ static constexpr bool value{std::is_integral<T>::value || std::is_floating_point<T>::value}; };
-#endif
-} // namespace alex::utils::math::concepts
+    namespace concepts
+    {
+    #if __cplusplus > 201703L && __cpp_concepts >= 201907L
+        template<typename T>
+        concept NumberType = std::is_integral_v<T> ||
+                            std::is_floating_point_v<T> ||
+                            boost::multiprecision::is_number<T>::value;
+    #else
+        // Legacy SFINAE
+        template<typename T> struct IsNumberType
+        { static constexpr bool value{std::is_integral<T>::value || std::is_floating_point<T>::value}; };
+    #endif
+    } // namespace alex::utils::math::concepts
 
-
-
-// Recursive template instantiation
 #if 0
-template<
+    template<
 #if __cplusplus > 201703L && __cpp_concepts >= 201907L
-    concepts::NumberType number_type,
-    number_type number,
-    size_t pow
+        concepts::NumberType number_type,
+        number_type number,
+        size_t pow
 #else
-    typename number_type,
-    number_type number,
-    size_t pow,
-    typename = std::enable_if_t<concepts::IsNumberType<number_type>::value>
+        typename number_type,
+        number_type number,
+        size_t pow,
+        typename = std::enable_if_t<concepts::IsNumberType<number_type>::value>
 #endif
->
-struct ct_power
-{ static constexpr number_type value{number * ct_power<number_type, number, pow - 1>::value}; };
+    >
+    struct ct_power
+    { static constexpr number_type value{number * ct_power<number_type, number, pow - 1>::value}; };
 
-template<
+    template<
 #if __cplusplus > 201703L && __cpp_concepts >= 201907L
-    concepts::NumberType number_type,
-    number_type number
+        concepts::NumberType number_type,
+        number_type number
 #else
-    typename number_type,
-    number_type number
+        typename number_type,
+        number_type number
 #endif
-> struct ct_power<number_type, number, 1> { static constexpr number_type value{number}; };
+    > struct ct_power<number_type, number, 1> { static constexpr number_type value{number}; };
 
-template<
+    template<
 #if __cplusplus > 201703L && __cpp_concepts >= 201907L
-    concepts::NumberType number_type,
-    number_type number
+        concepts::NumberType number_type,
+        number_type number
 #else
-    typename number_type,
-    number_type number
+        typename number_type,
+        number_type number
 #endif
-> struct ct_power<number_type, number, 0> { static constexpr number_type value{static_cast<number_type>(1)}; };
+    > struct ct_power<number_type, number, 0> { static constexpr number_type value{static_cast<number_type>(1)}; };
 #else
-template<
+    template<
 #if __cplusplus > 201703L && __cpp_concepts >= 201907L
-    concepts::NumberType number_type
+        concepts::NumberType number_type
 #else
-    typename number_type, typename = std::enable_if_t<concepts::IsNumberType<number_type>::value>
+        typename number_type, typename = std::enable_if_t<concepts::IsNumberType<number_type>::value>
 #endif
->
-constexpr number_type ct_power(number_type number, size_t pow)
-{
-    if (pow == 0) return 1;
-    if (pow == 1) return number;
-    return number * ct_power(number, pow - 1);
-}
+    >
+    constexpr number_type ct_power(number_type number, size_t pow)
+    {
+        if (pow == 0) return 1;
+        if (pow == 1) return number;
+        return number * ct_power(number, pow - 1);
+    }
 #endif
-
 } // namespace alex::utils::math
-#endif // COMPILE_TIME_POWER_HPP
+
+#endif // _COMPILE_TIME_POWER_HPP_
