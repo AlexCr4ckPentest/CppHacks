@@ -12,27 +12,67 @@
 
 namespace alex::utils::coroutine_helpers
 {
+    template<typename T>
+    struct coro_seq_generator_iterator
+    {
+        using iterator_category = std::input_iterator_tag;
+        using difference_type = std::ptrdiff_t;
+        using value_type = T;
+        using pointer = T*;
+        using reference = T&;
+
+
+
+        coro_seq_generator_iterator()
+            : generator_{}
+        {}
+
+        coro_seq_generator_iterator(generator<T>& generator)
+            : generator_{generator}
+        {}
+
+        value_type operator*() const noexcept
+        { return generator_.current_value(); }
+
+        bool operator!=(const std::nullptr_t ptr)
+        { return true; }
+
+        coro_seq_generator_iterator operator++(int) noexcept
+        {
+            coro_seq_generator_iterator tmp{generator_};
+            generator_.next();
+            return tmp;
+        }
+
+        coro_seq_generator_iterator& operator++() noexcept
+        {
+            generator_.next();
+            return *this;
+        }
+
+    private:
+        generator<T>& generator_;
+    };
+
     template <typename T>
     struct coro_seq_generator : public generator<T>
     {
-        auto begin() noexcept
-        {}
+        using iterator = coro_seq_generator_iterator<T>;
+
+
+
+        iterator begin() noexcept
+        { return iterator{*this}; }
 
         auto end() noexcept
-        {}
-
-        auto begin() const noexcept
-        {}
-
-        auto end() const noexcept
-        {}
+        { return nullptr; }
     };
 
     template <typename T = int>
         coro_seq_generator<T>
     seq_generator(T start, T stop, T step = 1) noexcept
     {
-        for (T index{start}; index < stop; index++)
+        for (T index{start}; index < stop; index += step)
         {
             co_yield index;
         }
