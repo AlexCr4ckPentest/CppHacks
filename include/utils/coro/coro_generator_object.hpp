@@ -17,7 +17,7 @@ namespace alex::utils::coroutine_helpers
         template<typename T>
         struct promise_type
         {
-            auto initial_suspend() noexcept { return std::suspend_always{}; }
+            auto initial_suspend() noexcept { return std::suspend_never{}; }
             auto final_suspend() noexcept { return std::suspend_always{}; }
 
             void unhandled_exception() { std::terminate(); }
@@ -42,6 +42,8 @@ namespace alex::utils::coroutine_helpers
     {
         using promise_type = impl::generator_obj::promise_type<T>;
         using coro_handle = std::coroutine_handle<promise_type>;
+
+        generator() = default;
 
         generator(coro_handle handle) : handle_{handle} {}
 
