@@ -21,8 +21,6 @@ namespace alex::utils::coroutine_helpers
         using pointer = T*;
         using reference = T&;
 
-
-
         coro_seq_generator_iterator()
             : generator_{}
         {}
@@ -34,8 +32,8 @@ namespace alex::utils::coroutine_helpers
         value_type operator*() const noexcept
         { return generator_.current_value(); }
 
-        bool operator!=(const std::nullptr_t ptr)
-        { return true; }
+        bool operator!=(const std::nullptr_t ptr) noexcept
+        { return !generator_.handle().done(); }
 
         coro_seq_generator_iterator operator++(int) noexcept
         {
@@ -59,12 +57,10 @@ namespace alex::utils::coroutine_helpers
     {
         using iterator = coro_seq_generator_iterator<T>;
 
-
-
-        iterator begin() noexcept
+        iterator begin() const noexcept
         { return iterator{*this}; }
 
-        auto end() noexcept
+        auto end() const noexcept
         { return nullptr; }
     };
 
@@ -73,9 +69,7 @@ namespace alex::utils::coroutine_helpers
     seq_generator(T start, T stop, T step = 1) noexcept
     {
         for (T index{start}; index < stop; index += step)
-        {
-            co_yield index;
-        }
+        { co_yield index; }
     }
 } // namespace alex::utils::coroutine_helpers
 
