@@ -57,7 +57,7 @@ namespace alex::utils::coroutine_helpers
     {
         using iterator = coro_seq_generator_iterator<T>;
 
-        iterator begin() const noexcept
+        iterator begin() noexcept
         { return iterator{*this}; }
 
         auto end() const noexcept
@@ -69,6 +69,14 @@ namespace alex::utils::coroutine_helpers
     seq_generator(T start, T stop, T step = 1) noexcept
     {
         for (T index{start}; index < stop; index += step)
+        { co_yield index; }
+    }
+
+    template <typename T = int>
+        coro_seq_generator<T>
+    seq_generator(T max) noexcept
+    {
+        for (T index{0}; index < max; index++)
         { co_yield index; }
     }
 } // namespace alex::utils::coroutine_helpers
